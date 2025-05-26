@@ -6,26 +6,30 @@
     <title>Kat's Lashes - Lash Lift & Tint Boutique in Southgate N14</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
+            darkMode: 'class', // Enable dark mode based on 'dark' class on <html>
             theme: {
                 extend: {
                     colors: {
-                        primary: '#5D5CDE',
-                        secondary: '#F8F0E9',
-                        accent: '#D6A9B1',
-                        dark: '#181818',
-                        light: '#FFFFFF'
+                        // More inclusive/calming palette suggestions
+                        primary: '#8B5CF6', // Soft, calming purple
+                        secondary: '#F3EFE0', // Warm off-white, natural feel
+                        accent: '#EFB0C4',   // Gentle rosy pink, complements primary
+                        dark: '#2A2F4F',     // Deep, rich dark blue/purple for contrast
+                        light: '#FDFCF7'     // Soft, creamy white
                     },
                     fontFamily: {
-                        'serif': ['Garamond', 'serif'],
-                        'sans': ['Montserrat', 'sans-serif']
+                        'serif': ['Garamond', 'serif'], // Classic and elegant
+                        'sans': ['Montserrat', 'sans-serif'] // Modern and readable
                     }
                 }
             }
         }
 
         // Dark mode detection and toggle
+        // This script runs early to apply dark mode class before rendering
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.classList.add('dark');
         }
@@ -38,7 +42,9 @@
         });
     </script>
     <style>
+        /* Import Montserrat font for better control */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Garamond:wght@400;700&display=swap'); /* Ensure Garamond is imported if not system font */
         
         .fancy-title {
             font-family: 'Garamond', serif;
@@ -49,6 +55,7 @@
             width: 40px;
             text-align: center;
             vertical-align: middle;
+            border-radius: 4px; /* Slightly rounded cells */
         }
         
         .service-card {
@@ -74,14 +81,19 @@
             transform: translateY(20px);
         }
         
+        /* Dark mode specific styles for better visual harmony */
         .dark .service-card {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.08); /* Slightly more visible on dark */
+            border-color: rgba(255, 255, 255, 0.1); /* Subtle border on dark */
         }
         
         .dark .custom-calendar td.available:hover {
-            background-color: rgba(93, 92, 222, 0.2);
+            background-color: rgba(139, 92, 246, 0.2); /* Use new primary color for hover */
         }
-        
+        .dark .custom-calendar td.bg-primary {
+            background-color: var(--tw-colors-primary); /* Ensure primary color is used */
+        }
+
         /* Lash animation */
         @keyframes flutter {
             0%, 100% { transform: rotate(0deg); }
@@ -94,20 +106,28 @@
             transform-origin: center bottom;
         }
         
-        /* Form styling */
+        /* Form styling - enhanced focus and dark mode states */
         input, select, textarea {
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            @apply border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base;
         }
         
         input:focus, select:focus, textarea:focus {
-            border-color: #5D5CDE;
-            box-shadow: 0 0 0 3px rgba(93, 92, 222, 0.2);
+            border-color: var(--tw-colors-primary); /* Use primary color for focus */
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); /* Use primary color for shadow */
+            outline: none; /* Remove default outline */
         }
         
         .dark input, .dark select, .dark textarea {
             background-color: rgba(255, 255, 255, 0.05);
             color: #FFFFFF;
         }
+        
+        /* Time slot buttons */
+        #time-slots button.bg-primary {
+            background-color: var(--tw-colors-primary);
+        }
+
     </style>
 </head>
 <body class="font-sans antialiased transition-colors duration-300 bg-light dark:bg-dark text-dark dark:text-light">
@@ -115,7 +135,7 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
                 <h1 class="fancy-title text-3xl font-bold text-primary">
-                    <span class="lash-icon">✨</span> Kat's Lashes
+                    <span class="lash-icon" role="img" aria-label="Sparkle icon">✨</span> Kat's Lashes
                 </h1>
             </div>
             <nav class="hidden md:flex space-x-6">
@@ -124,7 +144,7 @@
                 <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">About</a>
                 <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
             </nav>
-            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary">
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary" aria-label="Open mobile menu">
                 <i class="fas fa-bars text-xl"></i>
             </button>
         </div>
@@ -139,12 +159,11 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
         <section class="py-16 bg-secondary dark:bg-gray-900 relative overflow-hidden">
             <div class="container mx-auto px-4 relative z-10">
                 <div class="max-w-xl mx-auto text-center">
                     <h2 class="fancy-title text-4xl md:text-5xl font-bold mb-4 text-primary">Elevate Your Natural Beauty</h2>
-                    <p class="text-lg mb-8 text-gray-700 dark:text-gray-300">Experience premium lash lift and tint services in the heart of Southgate N14.</p>
+                    <p class="text-lg mb-8 text-gray-700 dark:text-gray-300">Experience premium lash lift and tint services in the heart of Southgate N14, celebrating your unique charm.</p>
                     <a href="#booking" class="inline-block bg-primary text-white px-8 py-3 rounded-full font-medium hover:bg-opacity-90 transition-colors shadow-md hover:shadow-lg">
                         Book Your Appointment
                     </a>
@@ -153,16 +172,13 @@
             <div class="absolute -bottom-16 left-0 w-full h-64 bg-gradient-to-t from-light dark:from-dark to-transparent"></div>
         </section>
 
-        <!-- Services Section -->
         <section id="services" class="py-16">
             <div class="container mx-auto px-4">
                 <h2 class="fancy-title text-3xl font-bold text-center mb-12 text-primary">Our Premium Services</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Service 1 -->
-                    <div class="service-card rounded-lg overflow-hidden shadow-md border border-gray-100 dark:border-gray-800 p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8"> <div class="service-card rounded-lg overflow-hidden shadow-md border border-gray-100 dark:border-gray-800 p-6">
                         <div class="flex items-start">
                             <div class="mr-4 text-primary text-3xl">
-                                <i class="fas fa-spa"></i>
+                                <i class="fas fa-spa" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2">Lash Lift</h3>
@@ -175,11 +191,10 @@
                         </div>
                     </div>
 
-                    <!-- Service 2 -->
                     <div class="service-card rounded-lg overflow-hidden shadow-md border border-gray-100 dark:border-gray-800 p-6">
                         <div class="flex items-start">
                             <div class="mr-4 text-primary text-3xl">
-                                <i class="fas fa-eye"></i>
+                                <i class="fas fa-eye" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2">Lash Tint</h3>
@@ -192,11 +207,10 @@
                         </div>
                     </div>
 
-                    <!-- Service 3 -->
                     <div class="service-card rounded-lg overflow-hidden shadow-md border border-gray-100 dark:border-gray-800 p-6">
                         <div class="flex items-start">
                             <div class="mr-4 text-primary text-3xl">
-                                <i class="fas fa-gem"></i>
+                                <i class="fas fa-gem" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2">Lift & Tint Package</h3>
@@ -209,11 +223,10 @@
                         </div>
                     </div>
 
-                    <!-- Service 4 -->
                     <div class="service-card rounded-lg overflow-hidden shadow-md border border-gray-100 dark:border-gray-800 p-6">
                         <div class="flex items-start">
                             <div class="mr-4 text-primary text-3xl">
-                                <i class="fas fa-heart"></i>
+                                <i class="fas fa-heart" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2">Brow Lamination & Tint</h3>
@@ -229,641 +242,10 @@
             </div>
         </section>
 
-        <!-- Booking Section -->
         <section id="booking" class="py-16 bg-secondary dark:bg-gray-900">
             <div class="container mx-auto px-4">
                 <h2 class="fancy-title text-3xl font-bold text-center mb-12 text-primary">Book Your Appointment</h2>
                 <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     <div class="flex flex-col md:flex-row">
                         <div class="w-full md:w-1/2 p-6 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700">
-                            <h3 class="text-xl font-semibold mb-4">Select Service & Date</h3>
-                            
-                            <!-- Service Selection -->
-                            <div class="mb-6">
-                                <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">Choose a Service</label>
-                                <select id="service-select" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none">
-                                    <option value="lash-lift">Lash Lift - £45 (45 min)</option>
-                                    <option value="lash-tint">Lash Tint - £30 (30 min)</option>
-                                    <option value="lift-tint">Lift & Tint Package - £65 (60 min)</option>
-                                    <option value="brow-lamination">Brow Lamination & Tint - £55 (45 min)</option>
-                                </select>
-                            </div>
-                            
-                            <!-- Calendar -->
-                            <div class="mb-6">
-                                <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">Select a Date</label>
-                                <div id="calendar-container" class="custom-calendar">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <button id="prev-month" class="text-primary hover:text-primary-dark">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </button>
-                                        <h4 id="calendar-month" class="font-medium">May 2024</h4>
-                                        <button id="next-month" class="text-primary hover:text-primary-dark">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </button>
-                                    </div>
-                                    <table class="w-full">
-                                        <thead>
-                                            <tr>
-                                                <th>M</th>
-                                                <th>T</th>
-                                                <th>W</th>
-                                                <th>T</th>
-                                                <th>F</th>
-                                                <th>S</th>
-                                                <th>S</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="calendar-body"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            
-                            <!-- Time Slots -->
-                            <div id="time-slot-container" class="mb-6 hidden">
-                                <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">Select a Time</label>
-                                <div id="time-slots" class="grid grid-cols-3 gap-2"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="w-full md:w-1/2 p-6">
-                            <h3 class="text-xl font-semibold mb-4">Your Details</h3>
-                            
-                            <form id="booking-form" class="space-y-4">
-                                <div>
-                                    <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium" for="name">Full Name</label>
-                                    <input type="text" id="name" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none" required>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium" for="email">Email Address</label>
-                                    <input type="email" id="email" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none" required>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium" for="phone">Phone Number</label>
-                                    <input type="tel" id="phone" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none" required>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium" for="notes">Special Requests/Notes</label>
-                                    <textarea id="notes" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none h-24"></textarea>
-                                </div>
-                                
-                                <div>
-                                    <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-primary h-5 w-5" required>
-                                        <span class="ml-2 text-gray-700 dark:text-gray-300">I agree to the cancellation policy (24-hour notice required)</span>
-                                    </label>
-                                </div>
-                                
-                                <div class="pt-4">
-                                    <button type="submit" id="submit-booking" class="w-full bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-opacity-90 transition-colors disabled:opacity-50" disabled>
-                                        Complete Booking
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-3xl mx-auto">
-                    <h2 class="fancy-title text-3xl font-bold text-center mb-12 text-primary">About Kat's Lashes</h2>
-                    
-                    <div class="prose max-w-none dark:prose-invert">
-                        <p class="text-lg mb-6">
-                            Welcome to Kat's Lashes, Southgate's premier destination for exceptional lash and brow services. Founded by Kat, a certified lash artist with over 5 years of experience, our boutique specialises in enhancing your natural beauty through expert lash lift and tint treatments.
-                        </p>
-                        
-                        <p class="text-lg mb-6">
-                            At Kat's Lashes, we believe in the transformative power of beautiful lashes. Our meticulous attention to detail and commitment to using only premium products ensures that each client leaves feeling confident and looking their absolute best.
-                        </p>
-                        
-                        <p class="text-lg mb-6">
-                            Located in the heart of Southgate N14, our elegant, intimate studio provides a peaceful retreat where you can relax and rejuvenate while receiving top-tier beauty services tailored to your unique features and preferences.
-                        </p>
-                        
-                        <div class="flex flex-col md:flex-row justify-between items-center mt-10 border-t border-gray-200 dark:border-gray-800 pt-10">
-                            <div class="mb-6 md:mb-0">
-                                <h3 class="font-semibold text-xl mb-2">Opening Hours</h3>
-                                <ul class="space-y-1 text-gray-600 dark:text-gray-400">
-                                    <li>Monday - Friday: 10:00 - 19:00</li>
-                                    <li>Saturday: 10:00 - 17:00</li>
-                                    <li>Sunday: Closed</li>
-                                </ul>
-                            </div>
-                            
-                            <div>
-                                <h3 class="font-semibold text-xl mb-2">Location</h3>
-                                <address class="not-italic text-gray-600 dark:text-gray-400">
-                                    Kat's Lashes<br>
-                                    42 High Street<br>
-                                    Southgate, London N14 6EP<br>
-                                </address>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-16 bg-secondary dark:bg-gray-900">
-            <div class="container mx-auto px-4">
-                <h2 class="fancy-title text-3xl font-bold text-center mb-12 text-primary">Contact Us</h2>
-                
-                <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <div class="flex flex-col md:flex-row">
-                        <div class="w-full md:w-1/2 p-6">
-                            <h3 class="text-xl font-semibold mb-4">Send Us a Message</h3>
-                            
-                            <form id="contact-form" class="space-y-4">
-                                <div>
-                                    <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium" for="contact-name">Your Name</label>
-                                    <input type="text" id="contact-name" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none" required>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium" for="contact-email">Email Address</label>
-                                    <input type="email" id="contact-email" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none" required>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium" for="contact-subject">Subject</label>
-                                    <input type="text" id="contact-subject" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none" required>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-gray-700 dark:text-gray-300 mb-2 font-medium" for="contact-message">Your Message</label>
-                                    <textarea id="contact-message" class="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 text-base focus:outline-none h-32" required></textarea>
-                                </div>
-                                
-                                <div class="pt-4">
-                                    <button type="submit" class="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-opacity-90 transition-colors">
-                                        Send Message
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                        
-                        <div class="w-full md:w-1/2 p-6 bg-gray-50 dark:bg-gray-700">
-                            <h3 class="text-xl font-semibold mb-6">Get in Touch</h3>
-                            
-                            <div class="space-y-6">
-                                <div class="flex items-start">
-                                    <div class="text-primary mr-4 mt-1">
-                                        <i class="fas fa-map-marker-alt text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-medium mb-1">Visit Us</h4>
-                                        <address class="not-italic text-gray-600 dark:text-gray-400">
-                                            42 High Street<br>
-                                            Southgate, London N14 6EP
-                                        </address>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-start">
-                                    <div class="text-primary mr-4 mt-1">
-                                        <i class="fas fa-phone-alt text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-medium mb-1">Call Us</h4>
-                                        <p class="text-gray-600 dark:text-gray-400">
-                                            <a href="tel:+442081234567" class="hover:text-primary">020 8123 4567</a>
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-start">
-                                    <div class="text-primary mr-4 mt-1">
-                                        <i class="fas fa-envelope text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-medium mb-1">Email Us</h4>
-                                        <p class="text-gray-600 dark:text-gray-400">
-                                            <a href="mailto:hello@katslashes.co.uk" class="hover:text-primary">hello@katslashes.co.uk</a>
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-start">
-                                    <div class="text-primary mr-4 mt-1">
-                                        <i class="fas fa-clock text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-medium mb-1">Opening Hours</h4>
-                                        <ul class="text-gray-600 dark:text-gray-400 space-y-1">
-                                            <li>Monday - Friday: 10:00 - 19:00</li>
-                                            <li>Saturday: 10:00 - 17:00</li>
-                                            <li>Sunday: Closed</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                
-                                <div class="pt-4">
-                                    <h4 class="font-medium mb-3">Follow Us</h4>
-                                    <div class="flex space-x-4">
-                                        <a href="#" class="text-primary hover:text-primary-dark text-xl">
-                                            <i class="fab fa-instagram"></i>
-                                        </a>
-                                        <a href="#" class="text-primary hover:text-primary-dark text-xl">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                        <a href="#" class="text-primary hover:text-primary-dark text-xl">
-                                            <i class="fab fa-tiktok"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Booking Confirmation Modal -->
-        <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4 p-6 booking-animation fade-out">
-                <div class="text-center">
-                    <div class="text-primary text-5xl mb-4">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Booking Confirmed!</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6">
-                        Thank you for booking with Kat's Lashes. We've sent a confirmation email with all the details.
-                    </p>
-                    <div id="booking-details" class="text-left bg-gray-50 dark:bg-gray-700 p-4 rounded-md mb-6">
-                        <!-- Booking details will be populated here -->
-                    </div>
-                    <button id="close-modal" class="bg-primary text-white px-6 py-2 rounded-md font-medium hover:bg-opacity-90 transition-colors">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="bg-gray-900 text-white py-10">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
-                    <h2 class="fancy-title text-2xl font-bold text-primary mb-2">
-                        <span class="lash-icon">✨</span> Kat's Lashes
-                    </h2>
-                    <p class="text-gray-400">Enhancing your natural beauty in Southgate N14</p>
-                </div>
-                
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                        <i class="fab fa-instagram text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                        <i class="fab fa-facebook-f text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                        <i class="fab fa-tiktok text-xl"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-                <p>&copy; 2024 Kat's Lashes. All rights reserved.</p>
-                <p class="mt-2">
-                    <a href="#" class="hover:text-primary">Privacy Policy</a> | 
-                    <a href="#" class="hover:text-primary">Terms of Service</a>
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        // Calendar functionality
-        const calendarBody = document.getElementById('calendar-body');
-        const calendarMonth = document.getElementById('calendar-month');
-        const prevMonthBtn = document.getElementById('prev-month');
-        const nextMonthBtn = document.getElementById('next-month');
-        const timeSlotContainer = document.getElementById('time-slot-container');
-        const timeSlots = document.getElementById('time-slots');
-        const submitBookingBtn = document.getElementById('submit-booking');
-        
-        let currentDate = new Date();
-        let selectedDate = null;
-        let selectedTime = null;
-        let selectedService = document.getElementById('service-select').value;
-        
-        // Generate calendar
-        function generateCalendar(year, month) {
-            calendarBody.innerHTML = '';
-            
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const daysInMonth = lastDay.getDate();
-            
-            // Adjust for Monday as first day of week (0 = Monday, 6 = Sunday)
-            let firstDayOfWeek = firstDay.getDay() - 1;
-            if (firstDayOfWeek < 0) firstDayOfWeek = 6; // Sunday becomes 6
-            
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            calendarMonth.textContent = `${monthNames[month]} ${year}`;
-            
-            let dayCount = 1;
-            let rows = Math.ceil((daysInMonth + firstDayOfWeek) / 7);
-            
-            for (let i = 0; i < rows; i++) {
-                const row = document.createElement('tr');
-                
-                for (let j = 0; j < 7; j++) {
-                    const cell = document.createElement('td');
-                    
-                    if ((i === 0 && j < firstDayOfWeek) || dayCount > daysInMonth) {
-                        cell.textContent = '';
-                    } else {
-                        cell.textContent = dayCount;
-                        
-                        const cellDate = new Date(year, month, dayCount);
-                        const today = new Date();
-                        today.setHours(0, 0, 0, 0);
-                        
-                        // Style for today
-                        if (cellDate.getTime() === today.getTime()) {
-                            cell.classList.add('bg-primary', 'bg-opacity-10', 'font-bold');
-                        }
-                        
-                        // Disable past dates
-                        if (cellDate < today) {
-                            cell.classList.add('text-gray-300', 'dark:text-gray-600');
-                        } else {
-                            // Make future dates selectable (excluding Sundays)
-                            if (cellDate.getDay() !== 0) { // 0 is Sunday
-                                cell.classList.add('available', 'cursor-pointer', 'hover:bg-primary', 'hover:bg-opacity-10', 'transition-colors');
-                                
-                                // Selected date style
-                                if (selectedDate && cellDate.getTime() === selectedDate.getTime()) {
-                                    cell.classList.add('bg-primary', 'text-white', 'dark:text-white');
-                                }
-                                
-                                cell.addEventListener('click', () => {
-                                    // Remove selection from previously selected date
-                                    const previouslySelected = document.querySelector('td.bg-primary.text-white');
-                                    if (previouslySelected) {
-                                        previouslySelected.classList.remove('bg-primary', 'text-white', 'dark:text-white');
-                                    }
-                                    
-                                    // Add selection to newly selected date
-                                    cell.classList.add('bg-primary', 'text-white', 'dark:text-white');
-                                    
-                                    // Update selected date
-                                    selectedDate = new Date(year, month, parseInt(cell.textContent));
-                                    
-                                    // Generate time slots for the selected date
-                                    generateTimeSlots(selectedDate);
-                                    
-                                    // Show time slot container
-                                    timeSlotContainer.classList.remove('hidden');
-                                    
-                                    // Check if we can enable the submit button
-                                    checkSubmitEligibility();
-                                });
-                            } else {
-                                cell.classList.add('text-gray-300', 'dark:text-gray-600'); // Sunday is not available
-                            }
-                        }
-                        
-                        dayCount++;
-                    }
-                    
-                    row.appendChild(cell);
-                }
-                
-                calendarBody.appendChild(row);
-            }
-        }
-        
-        // Generate time slots
-        function generateTimeSlots(date) {
-            timeSlots.innerHTML = '';
-            selectedTime = null;
-            
-            // Define available time slots (10:00 to 18:00, last appointment starts 1 hour before closing)
-            const startHour = 10;
-            const endHour = 18;
-            
-            // Get day of week (0 = Sunday, 6 = Saturday)
-            const dayOfWeek = date.getDay();
-            
-            // Adjust end hour for Saturday
-            const adjustedEndHour = dayOfWeek === 6 ? 16 : endHour; // Saturday closes earlier
-            
-            for (let hour = startHour; hour < adjustedEndHour; hour++) {
-                for (let minutes of ['00', '30']) {
-                    // Create time slot button
-                    const timeSlot = document.createElement('button');
-                    const timeString = `${hour}:${minutes}`;
-                    timeSlot.textContent = hour < 13 ? `${timeString}` : `${hour - 12}:${minutes} PM`;
-                    timeSlot.classList.add('border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'py-2', 'text-center', 'hover:border-primary', 'transition-colors');
-                    
-                    // Randomly make some time slots unavailable
-                    const isAvailable = Math.random() > 0.3;
-                    
-                    if (isAvailable) {
-                        timeSlot.addEventListener('click', () => {
-                            // Remove selection from previously selected time
-                            const previouslySelected = document.querySelector('#time-slots button.bg-primary');
-                            if (previouslySelected) {
-                                previouslySelected.classList.remove('bg-primary', 'text-white');
-                            }
-                            
-                            // Add selection to newly selected time
-                            timeSlot.classList.add('bg-primary', 'text-white');
-                            
-                            // Update selected time
-                            selectedTime = timeString;
-                            
-                            // Check if we can enable the submit button
-                            checkSubmitEligibility();
-                        });
-                    } else {
-                        timeSlot.classList.add('opacity-50', 'cursor-not-allowed', 'line-through');
-                        timeSlot.disabled = true;
-                    }
-                    
-                    timeSlots.appendChild(timeSlot);
-                }
-            }
-        }
-        
-        // Check if submit button should be enabled
-        function checkSubmitEligibility() {
-            if (selectedDate && selectedTime) {
-                submitBookingBtn.disabled = false;
-            } else {
-                submitBookingBtn.disabled = true;
-            }
-        }
-        
-        // Initialize calendar
-        generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
-        
-        // Previous month button
-        prevMonthBtn.addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
-        });
-        
-        // Next month button
-        nextMonthBtn.addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
-        });
-        
-        // Service select change
-        document.getElementById('service-select').addEventListener('change', (e) => {
-            selectedService = e.target.value;
-        });
-        
-        // Booking form submission
-        const bookingForm = document.getElementById('booking-form');
-        const bookingModal = document.getElementById('booking-modal');
-        const bookingDetails = document.getElementById('booking-details');
-        const modalContent = document.querySelector('#booking-modal .booking-animation');
-        
-        bookingForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const notes = document.getElementById('notes').value;
-            
-            // Get service name from selected option
-            const serviceSelect = document.getElementById('service-select');
-            const serviceName = serviceSelect.options[serviceSelect.selectedIndex].text;
-            
-            // Format date for display
-            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = selectedDate.toLocaleDateString('en-GB', dateOptions);
-            
-            // Format time for display
-            const [hour, minute] = selectedTime.split(':');
-            const timeDisplay = hour < 13 ? `${hour}:${minute}` : `${hour - 12}:${minute} PM`;
-            
-            // Populate booking details
-            bookingDetails.innerHTML = `
-                <p><strong>Service:</strong> ${serviceName}</p>
-                <p><strong>Date:</strong> ${formattedDate}</p>
-                <p><strong>Time:</strong> ${timeDisplay}</p>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Phone:</strong> ${phone}</p>
-                ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ''}
-            `;
-            
-            // Show modal with animation
-            bookingModal.classList.remove('hidden');
-            setTimeout(() => {
-                modalContent.classList.remove('fade-out');
-                modalContent.classList.add('fade-in');
-            }, 10);
-            
-            // Reset form
-            bookingForm.reset();
-            selectedDate = null;
-            selectedTime = null;
-            submitBookingBtn.disabled = true;
-            
-            // Hide time slots
-            timeSlotContainer.classList.add('hidden');
-            
-            // Regenerate calendar to remove selection
-            generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
-        });
-        
-        // Close modal button
-        document.getElementById('close-modal').addEventListener('click', () => {
-            modalContent.classList.remove('fade-in');
-            modalContent.classList.add('fade-out');
-            setTimeout(() => {
-                bookingModal.classList.add('hidden');
-            }, 500);
-        });
-        
-        // Contact form submission
-        const contactForm = document.getElementById('contact-form');
-        
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Get form values
-            const name = document.getElementById('contact-name').value;
-            const email = document.getElementById('contact-email').value;
-            const subject = document.getElementById('contact-subject').value;
-            const message = document.getElementById('contact-message').value;
-            
-            // In a real app, you would send this data to a server
-            // Here we'll just show a simple alert
-            
-            // Display confirmation
-            const formContainer = contactForm.parentElement;
-            const originalContent = formContainer.innerHTML;
-            
-            formContainer.innerHTML = `
-                <div class="text-center py-8">
-                    <div class="text-primary text-5xl mb-4">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Message Sent!</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6">
-                        Thank you for contacting Kat's Lashes. We'll respond to your message shortly.
-                    </p>
-                </div>
-            `;
-            
-            // Reset form after 5 seconds
-            setTimeout(() => {
-                formContainer.innerHTML = originalContent;
-                
-                // Re-add event listener to new form element
-                const newContactForm = document.getElementById('contact-form');
-                newContactForm.addEventListener('submit', arguments.callee);
-            }, 5000);
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    // Close mobile menu if open
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                    
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80, // Adjust for header
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                            <h3 class="text-xl font
